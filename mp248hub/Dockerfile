@@ -64,8 +64,7 @@ ENV HOME /home/user
 WORKDIR /home/user
 
 COPY ipython_config.py /etc/ipython/ipython_config.py
+COPY README.ipynb /home/user/notebooks
 CMD ["/bin/bash", "/srv/singleuser/singleuser.sh"]
 
 RUN /srv/singleuser/trusted_nb.sh
-
-ENV SYGMADIR /opt/NuPyCEE
