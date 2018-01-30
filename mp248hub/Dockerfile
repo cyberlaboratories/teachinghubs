@@ -1,4 +1,5 @@
-FROM cyberhubs/corehub
+#FROM local/mesa.ml:latest
+FROM cyberhubs/corehub:1.0.0
 
 MAINTAINER Falk Herwig
 
@@ -28,8 +29,6 @@ RUN python3 -m pip install ipykernel && python3 -m ipykernel install && python3 
 COPY jupyterhub-singleuser /usr/local/bin/jupyterhub-singleuser
 
 COPY singleuser.sh /srv/singleuser/singleuser.sh
-
-COPY README.ipynb /home/user/
 
 #RUN jupyter contrib nbextension install --system && \
 #    jupyter nbextension enable --py --sys-prefix widgetsnbextension 
@@ -64,7 +63,8 @@ ENV HOME /home/user
 WORKDIR /home/user
 
 COPY ipython_config.py /etc/ipython/ipython_config.py
-COPY README.ipynb /home/user/notebooks
+COPY README_mp248.ipynb /home/user/
+COPY README_mp248.ipynb /home/user/notebooks
 CMD ["/bin/bash", "/srv/singleuser/singleuser.sh"]
 
 RUN /srv/singleuser/trusted_nb.sh
