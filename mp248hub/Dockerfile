@@ -1,5 +1,4 @@
-#FROM local/mesa.ml:latest
-FROM cyberhubs/corehub:1.0.0
+FROM cyberhubs/basichub:1.2.3
 
 MAINTAINER Falk Herwig
 
@@ -11,60 +10,34 @@ USER root
 WORKDIR /root
 ENV HOME /root
 
-COPY ./apt_packages_mlhub.txt /tmp/apt_packages_mlhub.txt
-
-RUN apt-get update && \
-    apt-get -y install $(cat /tmp/apt_packages_mlhub.txt) && \
-    apt-get autoremove --yes && apt-get clean all && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# At this time no OS packages are installed in teaching hub beyond what is 
+# already in corehub/singleuser and basichub -> comment below
+#COPY ./apt_packages.txt /tmp/apt_packages.txt
+#RUN apt-get update && \
+#    apt-get -y install $(cat /tmp/apt_packages.txt) && \
+#    apt-get autoremove --yes && apt-get clean all && \
+#    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ADD ./single_pip3_requirements_mp248.txt /tmp/requirements/single_pip3_requirements.txt
-
 RUN pip3 install -r /tmp/requirements/single_pip3_requirements.txt
-
 RUN python3 -m pip install ipykernel && python3 -m ipykernel install && python3 -m bash_kernel.install
 
-# Add extensions that include the initialization cells and many others...
-
 COPY jupyterhub-singleuser /usr/local/bin/jupyterhub-singleuser
-
 COPY singleuser.sh /srv/singleuser/singleuser.sh
 
-#RUN jupyter contrib nbextension install --system && \
-#    jupyter nbextension enable --py --sys-prefix widgetsnbextension 
-
-#RUN jupyter nbextension enable codefolding/main && \
-#    jupyter nbextension enable init_cell/main
-
-# Jupyter lab section
-
-#RUN jupyter serverextension enable --py jupyterlab --sys-prefix &&\
-#    jupyter labextension install @jupyterlab/hub-extension
-
-# Add trusted notebooks and init_cells
-
-COPY  secret/nbsignatures.db /home/user/.local/share/jupyter/nbsignatures.db
-COPY  secret/notebook_secret /home/user/.local/share/jupyter/notebook_secret
-COPY  nbconfig/notebook.json /usr/local/etc/jupyter/nbconfig/notebook.json
-COPY  custom /home/user/.jupyter/custom
-
 RUN chmod -R 775 /home/user/notebooks
-
 RUN chown -R user:user /home/user && \
     chmod -R 775 /home/user/ && \
     chmod 775 /usr/local/bin/jupyterhub-singleuser && \
     chmod 775 /srv/singleuser/singleuser.sh
-
-COPY ./trusted_nb.sh /srv/singleuser/trusted_nb.sh
-RUN chmod +x /srv/singleuser/trusted_nb.sh
 
 USER user
 ENV HOME /home/user
 WORKDIR /home/user
 
 COPY ipython_config.py /etc/ipython/ipython_config.py
-COPY README_mp248.ipynb /home/user/
-COPY README_mp248.ipynb /home/user/notebooks
 CMD ["/bin/bash", "/srv/singleuser/singleuser.sh"]
 
-RUN /srv/singleuser/trusted_nb.sh
+
+
+

@@ -1,2 +1,2 @@
 build: 
-	docker build -t local/mp248 .
+	docker build -t local/etamu .
