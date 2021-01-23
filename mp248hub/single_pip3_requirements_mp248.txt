@@ -4,9 +4,11 @@ gtfs-realtime-bindings
 h5py
 html2text
 Keras
+names
 nugridpy
 pandas
 pint
+protobuf3-to-dict
 PyWavelets
 pyvirtualdisplay
 pprint
@@ -19,4 +21,3 @@ tensorflow
 tensorflow-tensorboard
 urllib3
 wget
-

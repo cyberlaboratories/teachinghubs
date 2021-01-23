@@ -4,9 +4,9 @@ c = get_config()
 #c.InteractiveShellApp.matplotlib = None
 #c.InteractiveShellApp.gui = None
 #c.InteractiveShellApp.pylab = "inline"
-c.InteractiveShellApp.exec_lines = [
-    "%pylab inline\n"
-]
+#c.InteractiveShellApp.exec_lines = [
+#    "%pylab inline\n"
+#]
 # "display(HTML(\'<style>.container { width:80% !important; }</style>\'))
 #"%nbagg\n",
 #]
