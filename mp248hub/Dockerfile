@@ -25,7 +25,8 @@ RUN apt-get update && \
     apt-get autoremove --yes && apt-get clean all && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN echo start from here
+RUN echo start from here 1
+RUN pip install --upgrade pip
 ADD ./single_pip3_requirements_mp248.txt /tmp/requirements/single_pip3_requirements.txt
 RUN pip3 install -r /tmp/requirements/single_pip3_requirements.txt
 RUN python3 -m pip install ipykernel && python3 -m ipykernel install && python3 -m bash_kernel.install
